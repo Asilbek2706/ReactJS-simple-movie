@@ -1,5 +1,4 @@
 import './MoviesAddForm.css';
-import { v4 as uuidv4 } from 'uuid';
 import { Component } from "react";
 
 class MoviesAddForm extends Component {
@@ -22,7 +21,6 @@ class MoviesAddForm extends Component {
         this.props.addForm({
             name: this.state.name,
             viewers: this.state.views,
-            id: uuidv4()
         })
         this.setState({
             name: '',
