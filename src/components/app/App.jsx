@@ -9,11 +9,7 @@ import {useState} from "react";
 import { v4 as uuidv4 } from 'uuid';
 
 const App = () => {
-  const [data, setData] = useState([
-    { name: 'Empire of Osman', viewers: 811, favourite: false, like: false, id: 1 },
-    { name: 'Ertugrul', viewers: 900, favourite: false, like: false, id: 2 },
-    { name: 'Chuqur', viewers: 911, favourite: false, like: false, id: 3 },
-  ]);
+  const [data, setData] = useState(arr);
   const [term, setTerm] = useState('');
   const [filter, setFilter] = useState('all');
 
@@ -78,6 +74,12 @@ const App = () => {
 }
 
 export default App;
+
+const arr = [
+  { name: 'Empire of Osman', viewers: 811, favourite: false, like: false, id: 1 },
+  { name: 'Ertugrul', viewers: 900, favourite: false, like: false, id: 2 },
+  { name: 'Chuqur', viewers: 911, favourite: false, like: false, id: 3 },
+]
 
 /**class App extends Component {
  constructor(props) {
