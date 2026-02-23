@@ -5,13 +5,14 @@ import SearchPanel from '../searchPanel/SearchPanel';
 import AppFilter from '../appFilter/AppFilter';
 import MovieList from '../movie-list/MovieList';
 import MoviesAddForm from '../movies-add-form/MoviesAddForm';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { v4 as uuidv4 } from 'uuid';
 
 const App = () => {
-  const [data, setData] = useState(arr);
+  const [data, setData] = useState([]);
   const [term, setTerm] = useState('');
   const [filter, setFilter] = useState('all');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onDelete = id => {
     const newArr = data.filter(c => c.id !== id)
@@ -56,6 +57,24 @@ const App = () => {
 
   const updateFilterHandler = filter => setFilter(filter)
 
+  useEffect(() => {
+    setIsLoading(true);
+    fetch('https://jsonplaceholder.typicode.com/todos?_start=0&_limit=5')
+        .then(response=> response.json())
+        .then(json => {
+          const newArr = json.map(item => ({
+            name: item.title,
+            id: item.id,
+            viewers: item.id * 10,
+            favourite: false,
+            like: false
+          }))
+          setData(newArr)
+        })
+        .catch(error => console.log(error))
+        .finally(() => setIsLoading(false))
+  }, []);
+
     return (
       <>
         <div className="App font-monospace">
@@ -65,6 +84,7 @@ const App = () => {
               <SearchPanel updateTermHandler={updateTermHandler} />
               <AppFilter filter={filter} updateFilterHandler={updateFilterHandler} />
             </div>
+            {isLoading && "Loading..."}
             <MovieList onToggleProp={onToggleProp} data={filterHandler(searchHandler(data, term), filter)} onDelete={onDelete} />
             <MoviesAddForm addForm={addFrom} />
           </div>
@@ -74,12 +94,6 @@ const App = () => {
 }
 
 export default App;
-
-const arr = [
-  { name: 'Empire of Osman', viewers: 811, favourite: false, like: false, id: 1 },
-  { name: 'Ertugrul', viewers: 900, favourite: false, like: false, id: 2 },
-  { name: 'Chuqur', viewers: 911, favourite: false, like: false, id: 3 },
-]
 
 /**class App extends Component {
  constructor(props) {
