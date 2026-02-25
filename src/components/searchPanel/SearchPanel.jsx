@@ -1,17 +1,19 @@
 import './SearchPanel.css';
-import {Fragment, useState} from "react";
+import {useContext, useState} from "react";
+import {Context} from "../../../context/index.jsx";
 
-const SearchPanel = (props) => {
+const SearchPanel = () => {
     const [term, setTerm] = useState("");
+    const { _, dispatch} = useContext(Context)
 
     const updateTermHandler = e => {
         const term = e.target.value.toLowerCase();
         setTerm(term);
-        props.updateTermHandler(term);
+        dispatch({ type: 'ON_TERM', payload: term });
     }
 
     return (
-        <Fragment>
+        <>
             <input
                 type="text"
                 className="form-control search-input"
@@ -19,7 +21,7 @@ const SearchPanel = (props) => {
                 onChange={updateTermHandler}
                 value={term}
             />
-        </Fragment>
+        </>
     );
 }
 
